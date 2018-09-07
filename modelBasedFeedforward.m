@@ -24,8 +24,8 @@ forwardOrder = numel(zero(feedforwardController)) - numel(pole(feedforwardContro
         %%
         [z,p,k,Ts] = zpkdata(G,'v');
         % relativeDegree = numel(p) - numel(z);
-        bound = 0.99999999999;
-        index = abs(z) > bound;
+        bound = 1;
+        index = abs(z) >= bound;
         nonminimumZero = z( index );
         minimumZero = z( ~index );
         F = zpk(p,minimumZero,1/k,Ts);

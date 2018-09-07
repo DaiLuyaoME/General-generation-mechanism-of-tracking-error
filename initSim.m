@@ -20,7 +20,7 @@ GpDis = c2d(GpWithDelay,Ts,'zoh');
 
 %% generate G for calculation of F
 feedforwardArchitectureTypeName = {'closedLoopFeedforward','plantInversionFeedforward'};
-feedforwardType = feedforwardArchitectureTypeName{2};
+feedforwardType = feedforwardArchitectureTypeName{1};
 switch feedforwardType
     case 'closedLoopFeedforward'
         G = feedback( minreal(  1 * GpDis * GcDis),1);
@@ -32,7 +32,22 @@ end
 %% generate F
 feedforwardMethodName = {'ZPETC','ZMETC','ignore','seriesTruncation'};
 feedforwardMethod = feedforwardMethodName{1};
-[F,forwardOrder] = modelBasedFeedforward(G,feedforwardMethod);
+[F,forwardOrderF] = modelBasedFeedforward(G,feedforwardMethod);
 z = tf('z',Ts);
-tempDelay = z^(-1 * forwardOrder);
+tempDelay = z^(-1 * forwardOrderF);
 FCausal = F * tempDelay;
+%% generate delta
+deltaMethodName = {'ZPETC','ZMETC','ignore','seriesTruncation'};
+deltaMethod = deltaMethodName{1};
+ma = 2.426e-9 + 1.5e-12 - 4.18e-14;
+% ma = 0;
+mj = 0;
+md = -3.48e-17;
+% md = 0;
+[delta,forwardOrderD] = calculateDelta(ma,mj,md,Ts,deltaMethod);
+z = tf('z',Ts);
+tempDelay = z^(-1 * forwardOrderD);
+deltaCausal = delta * tempDelay;
+%%
+forwardOrder = forwardOrderD + forwardOrderF;
+
