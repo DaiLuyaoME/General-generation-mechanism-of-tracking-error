@@ -30,12 +30,25 @@ forwardOrder = numel(zero(feedforwardController)) - numel(pole(feedforwardContro
         minimumZero = z( ~index );
         F = zpk(p,minimumZero,1/k,Ts);
         %%
-        for i = 1:numel(nonminimumZero)
-            temp = tf( [-1 * nonminimumZero(i),1] ,1 ,Ts,'variable','z^-1');
-            F = F * temp * (1 / (abs(1 - nonminimumZero(i))).^2 );
+%         for i = 1:numel(nonminimumZero)
+%             temp = tf( [-1 * nonminimumZero(i),1] ,1 ,Ts,'variable','z^-1');
+%             F = F * temp * (1 / (abs(1 - nonminimumZero(i))).^2 );
+%         end
+        i = 1;
+        while i <= numel(nonminimumZero)
+            if(isreal(nonminimumZero(i)))
+                temp = tf( [-1 * nonminimumZero(i),1] ,1 ,Ts,'variable','z^-1');
+                F = F * temp * (1 / (abs(1 - nonminimumZero(i))).^2 );
+                i = i + 1;
+            else
+                temp = tf( [ ( abs(nonminimumZero(i)) ).^2 ,-2 * real(nonminimumZero(i)) ,1] ,1 ,Ts,'variable','z^-1');
+                F = F * temp * (1 / ( 1 + ( abs(nonminimumZero(i)) ).^2 -2 * real(nonminimumZero(i))).^2);
+                i = i + 2;
+            end
+            
         end
         [b,a,T] = tfdata(F,'v');
-        F = tf(real(b),real(a),T,'variable',F.Variable);
+        F = tf(b,a,T,'variable',F.Variable);
         
     end
 
