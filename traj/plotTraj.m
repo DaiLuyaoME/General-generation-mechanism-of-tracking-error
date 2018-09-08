@@ -25,7 +25,7 @@ xlabel('time (s)');
 
 % 创建 ylabel
 ylabel('dis (mm)');
-
+axis tight;
 % 取消以下行的注释以保留坐标轴的 X 范围
 % xlim(subplot1,[0 0.3]);
 % 取消以下行的注释以保留坐标轴的 Y 范围
@@ -52,7 +52,7 @@ xlabel('time (s)');
 
 % 创建 ylabel
 ylabel('vel (mm/s)');
-
+axis tight;
 % 取消以下行的注释以保留坐标轴的 X 范围
 % xlim(subplot2,[0 0.3]);
 % 取消以下行的注释以保留坐标轴的 Y 范围
@@ -80,7 +80,7 @@ xlabel('time (s)');
 
 % 创建 ylabel
 ylabel('acc (m/s^2)');
-
+axis tight;
 % 取消以下行的注释以保留坐标轴的 X 范围
 % xlim(subplot3,[0 0.3]);
 % 取消以下行的注释以保留坐标轴的 Y 范围
@@ -105,7 +105,7 @@ xlabel('time (s)');
 
 % 创建 ylabel
 ylabel('jerk (m/s^3)');
-
+axis tight;
 % 取消以下行的注释以保留坐标轴的 X 范围
 % xlim(subplot4,[0 0.3]);
 % 取消以下行的注释以保留坐标轴的 Y 范围
@@ -130,7 +130,7 @@ xlabel('time (s)');
 
 % 创建 ylabel
 ylabel('snap (m/s^4)');
-
+axis tight;
 % 取消以下行的注释以保留坐标轴的 X 范围
 % xlim(subplot5,[0 0.3]);
 % 取消以下行的注释以保留坐标轴的 Y 范围
