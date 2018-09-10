@@ -40,8 +40,8 @@ FCausal = F * tempDelay;
 deltaMethodName = {'ZPETC','ZMETC','ignore','seriesTruncation'};
 deltaMethod = deltaMethodName{1};
 %% zpetc delta parameters
-mv = 6e-4;
-ma = 1.82672239e-7;
+mv = 0;
+ma = -0.317710e-7;
 % ma = 2.426e-9 + 1.5e-12 - 4.18e-14;
 mj = 0;
 % mj = 1.8e-10;
