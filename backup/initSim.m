@@ -2,14 +2,14 @@
 modelTypeName = {'rigidBody','doubleMassNonColocated','doubleMassColocated'};
 modelInfo.mass = [5,20];
 modelInfo.fr = 700;
-modelInfo.dampRatio = 0.03;
+modelInfo.dampRatio = 0.06;
 modelInfo.type = modelTypeName{2};
 fs = 5000;
 Ts = 1/fs;
 Gp = createPlantModel(modelInfo);
 
 %% delay factor
-delayCount = 1.3;
+delayCount = 2;
 s = tf('s');
 delayModel = exp(-delayCount*Ts*s);
 delayModel = pade(delayModel,2);
@@ -31,7 +31,7 @@ end
 
 %% generate F
 feedforwardMethodName = {'ZPETC','ZMETC','ignore','seriesTruncation'};
-feedforwardMethod = feedforwardMethodName{1};
+feedforwardMethod = feedforwardMethodName{3};
 [F,forwardOrderF] = modelBasedFeedforward(G,feedforwardMethod);
 z = tf('z',Ts);
 tempDelay = z^(-1 * forwardOrderF);
@@ -41,30 +41,41 @@ deltaMethodName = {'ZPETC','ZMETC','ignore','seriesTruncation'};
 deltaMethod = deltaMethodName{1};
 %% zpetc delta parameters
 mv = 0;
-ma = -1.060763943526000e-08;
+ma = 0;
+% ma = 2.426e-9 + 1.5e-12 - 4.18e-14;
+% ma = -3.177e-8;
 mj = 0;
-% md = 8.727045949187352e-17;
+% mj = 1.8e-10;
+% md = 1.1523e-13;
+% md = 4.5721e-16;
+% md = -3.48e-17;
+md = 0;
 %%
 %% zmetc delta parameters
-mv = -1.875473607039328e-04;
-ma = 3.634176340793483e-08;
-mj = -7.316170835189614e-12;
-md = 1.499481989941630e-15;
+% % mv = 3.870517e-5;
+% % ma = 4.6196e-9;
+% % mj = 6.145758e-13;
+% % % md = -9.773e-17;
+% % md = 8.725741483e-17;
+% % md = 0;
+% mv = 3.870517e-5 + 7.16265e-12;
+% % mv = 0;
+% ma = -3.12141483e-9 - 5.75e-14;
+% % ma = 0;
+% mj = 3.1476828e-13;
+% % mj = 0;
+% % md = -9.773e-17;
+% md = -3.485188377e-17 - 1.73e-18;
+% % md = 0;
 %% ignore delta parameters
-mv = -9.377368045702400e-05;
-ma = -1.028442326954372e-08;
-mj = -1.171165138192156e-12;
-md = -1.407155440488730e-16;
-%% causal zpetc delta parameters
-mv = 8.000000023540249e-04;
-ma = 3.0939e-07;
-mj = 7.1530e-11;
-md = 1.2644e-14;
-%% no compensation
-mv = 0;
-ma = 0;
-mj = 0;
-md = 0;
+% mv = 1.935266583e-5 - 7.732120920e-11;
+% % mv = 0;
+% ma = 3.337792642e-9 - 1.545e-12;
+% % ma = 0;
+% mj = 5.32483e-13;
+% % mj = 0;
+% md = 7.388642e-17;
+% md = 0;
 %% 
 [delta,forwardOrderD] = calculateDelta(mv,ma,mj,md,Ts,deltaMethod);
 z = tf('z',Ts);
