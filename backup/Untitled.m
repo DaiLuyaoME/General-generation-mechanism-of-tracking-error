@@ -1,1 +1,0 @@
-GcDis = c2d(Gc,Ts,'prewarp',700 * 2 * pi);
